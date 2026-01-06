@@ -1,5 +1,6 @@
-import { inngest } from "./client";
-import { prisma } from "../prisma";
+import { inngest } from "./client.js";
+export { inngest };
+import prisma from "../configs/prisma.js";
 
 /* ================= USER EVENTS ================= */
 
