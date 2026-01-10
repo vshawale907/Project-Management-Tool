@@ -1,9 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { dummyWorkspaces } from "../assets/assets";
+import api from "../configs/api";
+
+export const fetchWorkspaces = createAsyncThunk(
+    'workspace/fetchWorkspace',
+    async ({ getToken }) => {
+        try {
+            const { data } = await api.get('api/workspace', { headers: {Authorization: `Bearer ${await getToken()}`} })
+            return data.workspaces || []
+        } catch (error) {
+            console.log(error?.response?.message)
+        }
+    }
+);
+
 
 const initialState = {
-    workspaces: dummyWorkspaces || [],
-    currentWorkspace: dummyWorkspaces[1],
+    workspaces: [],
+    currentWorkspace: null,
     loading: false,
 };
 
@@ -103,6 +117,9 @@ const workspaceSlice = createSlice({
             );
         }
 
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fe);
     }
 });
 
